@@ -6,7 +6,7 @@
 #define NUM_THREADS 8
 
 void sumFunction(int N, unsigned long long first, unsigned long long last, double **matrixA, double **matrixB, double **productMatrixParallel) {
-    for (unsigned long long i = first; i <= last; ++i) {
+    for (unsigned long long i = first; i < last; ++i) {
         for (int j = 0; j < N; j++) {
             for (int k = 0; k < N; k++) {
                 productMatrixParallel[i][j] += matrixA[i][k] * matrixB[k][j];
@@ -45,7 +45,7 @@ int main() {
     auto start = std::chrono::system_clock::now();
 
     for (int i = 0; i < NUM_THREADS; i++) {
-        threads[i] = std::thread(sumFunction, N, i * step + 1, (i + 1) * step, matrixA, matrixB, productMatrixParallel);
+        threads[i] = std::thread(sumFunction, N, i * step, (i + 1) * step, matrixA, matrixB, productMatrixParallel);
     }
 
     for (int i = 0; i < NUM_THREADS; i++) {
